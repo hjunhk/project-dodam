@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head lang="ko-KR">
+        <meta charset="utf-8">
+        <title></title>
+        <!-- <script data-main="public/common" src="public/node_modules/requirejs/require.js" ></script> -->
+    </head>
+    <boby>
+        <div id="info" style='display:none'>
+        </div>
+        <div id="loading" style='display:flex'>
+            <div class="spinner-text">
+                Loading PoseNet model...
+            </div>
+            <div class="sk-spinner sk-spinner-pulse"></div>
+        </div>
+        <div id='main' style='display:none'>
+            <video id="video" playsinline style="display: none;">
+            </video>
+            <canvas id="output">
+            </canvas>
+        </div>
+
+        <script src="public/dist/bundle.js"></script>
+    </boby>
+</html>
