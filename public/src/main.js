@@ -1,5 +1,3 @@
-/* /Projects/public/main.js */
-
 import * as posenet from '@tensorflow-models/posenet';
 import swal from 'sweetalert';
 
@@ -137,10 +135,6 @@ const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
 const defaultMobileNetInputResolution = 500;
 
-// const defaultResNetMultiplier = 1.0;
-// const defaultResNetStride = 32;
-// const defaultResNetInputResolution = 250;
-
 const guiState = {
     algorithm: 'single-pose',
     input: {
@@ -151,7 +145,7 @@ const guiState = {
         quantBytes: defaultQuantBytes
     },
     singlePoseDetection: {
-        minPoseConfidence: 0.1,
+        minPoseConfidence: 0.2,
         minPartConfidence: 0.5,
     },
     multiPoseDetection: {
@@ -176,6 +170,9 @@ function detectPoseInRealTime(video, net) {
 
     canvas.width = videoWidth;
     canvas.height = videoHeight;
+
+    var hazardDetection = true;
+    var hdAlert;
 
     async function poseDetectionFrame() {
         if (guiState.changeToArchitecture) {
@@ -297,14 +294,22 @@ function detectPoseInRealTime(video, net) {
                 if (guiState.output.showBoundingBox) {
                     drawBoundingBox(keypoints, ctx);
                 }
-            } 
-
-            // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
-            //test
-            if (keypoints[0].score < minPoseConfidence || 
-                (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
-                usrAlert.alert();
             }
+            
+            // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
+            if (keypoints[0].score < minPoseConfidence || (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
+                if (hazardDetection) {
+                    hdAlert = setInterval(usrAlert.alert, 3000);
+                    hazardDetection = false;
+                }
+            } else {
+                clearInterval(hdAlert);
+                hazardDetection = true;
+            }
+
+            console.log(keypoints[0].score);
+            console.log(keypoints[1].score);
+            console.log(keypoints[2].score);
         });
 
         requestAnimationFrame(poseDetectionFrame);
@@ -335,6 +340,7 @@ async function bindPage() {
         info.style.display = 'block';
         throw e;
     }
+
     detectPoseInRealTime(video, net);
 }
 

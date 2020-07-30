@@ -12474,12 +12474,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* /Projects/public/main.js */
-
 
 var videoWidth = 600;
 var videoHeight = 500;
-var color = 'black';
+var color = 'white';
 var lineWidth = 2;
 var usrAlert = {};
 
@@ -12663,10 +12661,7 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = 500; // const defaultResNetMultiplier = 1.0;
-// const defaultResNetStride = 32;
-// const defaultResNetInputResolution = 250;
-
+var defaultMobileNetInputResolution = 500;
 var guiState = {
   algorithm: 'single-pose',
   input: {
@@ -12677,7 +12672,7 @@ var guiState = {
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
-    minPoseConfidence: 0.1,
+    minPoseConfidence: 0.2,
     minPartConfidence: 0.5
   },
   multiPoseDetection: {
@@ -12701,6 +12696,8 @@ function detectPoseInRealTime(video, net) {
   var flipPoseHorizontal = true;
   canvas.width = videoWidth;
   canvas.height = videoHeight;
+  var hazardDetection = true;
+  var hdAlert;
 
   function poseDetectionFrame() {
     return _poseDetectionFrame.apply(this, arguments);
@@ -12878,12 +12875,21 @@ function detectPoseInRealTime(video, net) {
                     drawBoundingBox(keypoints, ctx);
                   }
                 } // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
-                //test
 
 
                 if (keypoints[0].score < minPoseConfidence || keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence) {
-                  usrAlert.alert();
+                  if (hazardDetection) {
+                    hdAlert = setInterval(usrAlert.alert, 3000);
+                    hazardDetection = false;
+                  }
+                } else {
+                  clearInterval(hdAlert);
+                  hazardDetection = true;
                 }
+
+                console.log(keypoints[0].score);
+                console.log(keypoints[1].score);
+                console.log(keypoints[2].score);
               });
               requestAnimationFrame(poseDetectionFrame);
 
