@@ -5,7 +5,6 @@ const videoWidth = 600;
 const videoHeight = 500;
 
 const color = 'white';
-const lineWidth = 2;
 
 var usrAlert = {};
 
@@ -26,10 +25,6 @@ function isiOS() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-function toTuple({y, x}) {
-    return [y, x];
-}
-
 function drawPoint(ctx, y, x, r, color) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -37,28 +32,13 @@ function drawPoint(ctx, y, x, r, color) {
     ctx.fill();
 }
 
-function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
-    ctx.beginPath();
-    ctx.moveTo(ax * scale, ay * scale);
-    ctx.lineTo(bx * scale, by * scale);
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-}
-
-function drawBoundingBox(keypoints, ctx) {
-    const boundingBox = posenet.getBoundingBox(keypoints);
-
-    ctx.rect(
-        boundingBox.minX, boundingBox.minY, boundingBox.maxX - boundingBox.minX,
-        boundingBox.maxY - boundingBox.minY);
-
-    ctx.strokeStyle = boundingBoxColor;
-    ctx.stroke();
-}
-
 function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
-    for (let i = 0; i < keypoints.length; i++) {
+    // keypoints[0] : nose
+    // keypoints[1] : leftEye
+    // keypoints[2] : rightEye
+    // keypoints[3] : leftEar
+    // keypoints[4] : rightEar
+    for (let i = 0; i < 5; i++) {
         const keypoint = keypoints[i];
 
         if (keypoint.score < minConfidence) {
@@ -68,17 +48,6 @@ function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
         const {y, x} = keypoint.position;
         drawPoint(ctx, y * scale, x * scale, 3, color);
     }
-}
-
-function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
-    const adjacentKeyPoints =
-        posenet.getAdjacentKeyPoints(keypoints, minConfidence);
-
-    adjacentKeyPoints.forEach((keypoints) => {
-        drawSegment(
-            toTuple(keypoints[0].position), toTuple(keypoints[1].position), color,scale, ctx
-        );
-    });
 }
 
 function isMobile() {
@@ -145,14 +114,8 @@ const guiState = {
         quantBytes: defaultQuantBytes
     },
     singlePoseDetection: {
-        minPoseConfidence: 0.2,
+        minPoseConfidence: 0.3,
         minPartConfidence: 0.5,
-    },
-    multiPoseDetection: {
-        maxPoseDetections: 5,
-        minPoseConfidence: 0.15,
-        minPartConfidence: 0.1,
-        nmsRadius: 30.0,
     },
     output: {
         showVideo: true,
@@ -162,6 +125,20 @@ const guiState = {
     },
     net: null,
 };
+
+function setupGui(cameras, net) {
+    guiState.net = net;
+
+    if (cameras.length > 0) {
+        guiState.camera = cameras[0].deviceId;
+    }
+
+    guiState.architecture = guiState.input.architecture;
+    guiState.inputResolution = guiState.input.inputResolution;
+    guiState.outputStride = guiState.input.outputStride;
+    guiState.multiplier = guiState.input.multiplier;
+    guiState.quantBytes = guiState.input.quantBytes;
+}
 
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
@@ -175,94 +152,10 @@ function detectPoseInRealTime(video, net) {
     var hdAlert;
 
     async function poseDetectionFrame() {
-        if (guiState.changeToArchitecture) {
-            guiState.net.dispose();
-            toggleLoadingUI(true);
-            guiState.net = await posenet.load({
-                architecture: guiState.changeToArchitecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-            });
-            toggleLoadingUI(false);
-            guiState.architecture = guiState.changeToArchitecture;
-            guiState.changeToArchitecture = null;
-        }
-
-        if (guiState.changeToMultiplier) {
-            guiState.net.dispose();
-            toggleLoadingUI(true);
-            guiState.net = await posenet.load({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: +guiState.changeToMultiplier,
-                quantBytes: guiState.quantBytes
-            });
-            toggleLoadingUI(false);
-            guiState.multiplier = +guiState.changeToMultiplier;
-            guiState.changeToMultiplier = null;
-        }
-
-        if (guiState.changeToOutputStride) {
-            guiState.net.dispose();
-            toggleLoadingUI(true);
-            guiState.net = await posenet.load({
-                architecture: guiState.architecture,
-                outputStride: +guiState.changeToOutputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.quantBytes
-            });
-            toggleLoadingUI(false);
-            guiState.outputStride = +guiState.changeToOutputStride;
-            guiState.changeToOutputStride = null;
-        }
-
-        if (guiState.changeToInputResolution) {
-            guiState.net.dispose();
-            toggleLoadingUI(true);
-            guiState.net = await posenet.load({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: +guiState.changeToInputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.quantBytes
-            });
-            toggleLoadingUI(false);
-            guiState.inputResolution = +guiState.changeToInputResolution;
-            guiState.changeToInputResolution = null;
-        }
-
-        if (guiState.changeToQuantBytes) {
-            guiState.net.dispose();
-            toggleLoadingUI(true);
-            guiState.net = await posenet.load({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.changeToQuantBytes
-            });
-            toggleLoadingUI(false);
-            guiState.quantBytes = guiState.changeToQuantBytes;
-            guiState.changeToQuantBytes = null;
-        }
-
-        // 기본값 사용
-        guiState.net = await posenet.load({
-            architecture: guiState.architecture,
-            outputStride: guiState.outputStride,
-            inputResolution: guiState.inputResolution,
-            multiplier: guiState.multiplier,
-            quantBytes: guiState.quantBytes
-        });
-
         let poses = [];
         let minPoseConfidence;
         let minPartConfidence;
 
-        // single-pose
         const pose = await guiState.net.estimateSinglePose(video, {
             imageScaleFactor: guiState.imageScaleFactor,
             flipHorizontal: flipPoseHorizontal,
@@ -288,16 +181,11 @@ function detectPoseInRealTime(video, net) {
                 if (guiState.output.showPoints) {
                     drawKeypoints(keypoints, minPartConfidence, ctx);
                 }
-                if (guiState.output.showSkeleton) {
-                    drawSkeleton(keypoints, minPartConfidence, ctx);
-                }
-                if (guiState.output.showBoundingBox) {
-                    drawBoundingBox(keypoints, ctx);
-                }
             }
             
             // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
-            if (keypoints[0].score < minPoseConfidence || (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
+            if (keypoints[0].score < minPoseConfidence || 
+                (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
                 if (hazardDetection) {
                     hdAlert = setInterval(usrAlert.alert, 3000);
                     hazardDetection = false;
@@ -306,10 +194,6 @@ function detectPoseInRealTime(video, net) {
                 clearInterval(hdAlert);
                 hazardDetection = true;
             }
-
-            console.log(keypoints[0].score);
-            console.log(keypoints[1].score);
-            console.log(keypoints[2].score);
         });
 
         requestAnimationFrame(poseDetectionFrame);
@@ -320,6 +204,7 @@ function detectPoseInRealTime(video, net) {
 
 async function bindPage() {
     toggleLoadingUI(true);
+
     const net = await posenet.load({
         architecture: guiState.input.architecture,
         outputStride: guiState.input.outputStride,
@@ -341,6 +226,7 @@ async function bindPage() {
         throw e;
     }
 
+    setupGui([], net);
     detectPoseInRealTime(video, net);
 }
 

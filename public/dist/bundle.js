@@ -9510,42 +9510,6 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "./node_modules/@ba
 
 /***/ }),
 
-/***/ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles;
-
-/***/ }),
-
 /***/ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
@@ -9590,104 +9554,6 @@ function _asyncToGenerator(fn) {
 }
 
 module.exports = _asyncToGenerator;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
-
-var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
-
-var unsupportedIterableToArray = __webpack_require__(/*! ./unsupportedIterableToArray */ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js");
-
-var nonIterableRest = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray;
-
-/***/ }),
-
-/***/ "./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-  \***************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var arrayLikeToArray = __webpack_require__(/*! ./arrayLikeToArray */ "./node_modules/@babel/runtime/helpers/arrayLikeToArray.js");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
 
 /***/ }),
 
@@ -12465,12 +12331,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @tensorflow-models/posenet */ "./node_modules/@tensorflow-models/posenet/dist/posenet.esm.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
-/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_4__);
-
+/* harmony import */ var _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @tensorflow-models/posenet */ "./node_modules/@tensorflow-models/posenet/dist/posenet.esm.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_3__);
 
 
 
@@ -12478,11 +12341,10 @@ __webpack_require__.r(__webpack_exports__);
 var videoWidth = 600;
 var videoHeight = 500;
 var color = 'white';
-var lineWidth = 2;
 var usrAlert = {};
 
 usrAlert.alert = function () {
-  sweetalert__WEBPACK_IMPORTED_MODULE_4___default()({
+  sweetalert__WEBPACK_IMPORTED_MODULE_3___default()({
     title: "위험 상황!",
     text: "아이의 자세를 확인해주세요!",
     icon: "info",
@@ -12498,12 +12360,6 @@ function isiOS() {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-function toTuple(_ref) {
-  var y = _ref.y,
-      x = _ref.x;
-  return [y, x];
-}
-
 function drawPoint(ctx, y, x, r, color) {
   ctx.beginPath();
   ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -12511,34 +12367,15 @@ function drawPoint(ctx, y, x, r, color) {
   ctx.fill();
 }
 
-function drawSegment(_ref2, _ref3, color, scale, ctx) {
-  var _ref4 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref2, 2),
-      ay = _ref4[0],
-      ax = _ref4[1];
-
-  var _ref5 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2___default()(_ref3, 2),
-      by = _ref5[0],
-      bx = _ref5[1];
-
-  ctx.beginPath();
-  ctx.moveTo(ax * scale, ay * scale);
-  ctx.lineTo(bx * scale, by * scale);
-  ctx.lineWidth = lineWidth;
-  ctx.strokeStyle = color;
-  ctx.stroke();
-}
-
-function drawBoundingBox(keypoints, ctx) {
-  var boundingBox = _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["getBoundingBox"](keypoints);
-  ctx.rect(boundingBox.minX, boundingBox.minY, boundingBox.maxX - boundingBox.minX, boundingBox.maxY - boundingBox.minY);
-  ctx.strokeStyle = boundingBoxColor;
-  ctx.stroke();
-}
-
 function drawKeypoints(keypoints, minConfidence, ctx) {
   var scale = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
-  for (var i = 0; i < keypoints.length; i++) {
+  // keypoints[0] : nose
+  // keypoints[1] : leftEye
+  // keypoints[2] : rightEye
+  // keypoints[3] : leftEar
+  // keypoints[4] : rightEar
+  for (var i = 0; i < 5; i++) {
     var keypoint = keypoints[i];
 
     if (keypoint.score < minConfidence) {
@@ -12550,14 +12387,6 @@ function drawKeypoints(keypoints, minConfidence, ctx) {
         x = _keypoint$position.x;
     drawPoint(ctx, y * scale, x * scale, 3, color);
   }
-}
-
-function drawSkeleton(keypoints, minConfidence, ctx) {
-  var scale = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-  var adjacentKeyPoints = _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["getAdjacentKeyPoints"](keypoints, minConfidence);
-  adjacentKeyPoints.forEach(function (keypoints) {
-    drawSegment(toTuple(keypoints[0].position), toTuple(keypoints[1].position), color, scale, ctx);
-  });
 }
 
 function isMobile() {
@@ -12672,14 +12501,8 @@ var guiState = {
     quantBytes: defaultQuantBytes
   },
   singlePoseDetection: {
-    minPoseConfidence: 0.2,
+    minPoseConfidence: 0.3,
     minPartConfidence: 0.5
-  },
-  multiPoseDetection: {
-    maxPoseDetections: 5,
-    minPoseConfidence: 0.15,
-    minPartConfidence: 0.1,
-    nmsRadius: 30.0
   },
   output: {
     showVideo: true,
@@ -12689,6 +12512,20 @@ var guiState = {
   },
   net: null
 };
+
+function setupGui(cameras, net) {
+  guiState.net = net;
+
+  if (cameras.length > 0) {
+    guiState.camera = cameras[0].deviceId;
+  }
+
+  guiState.architecture = guiState.input.architecture;
+  guiState.inputResolution = guiState.input.inputResolution;
+  guiState.outputStride = guiState.input.outputStride;
+  guiState.multiplier = guiState.input.multiplier;
+  guiState.quantBytes = guiState.input.quantBytes;
+}
 
 function detectPoseInRealTime(video, net) {
   var canvas = document.getElementById('output');
@@ -12710,140 +12547,15 @@ function detectPoseInRealTime(video, net) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!guiState.changeToArchitecture) {
-                _context.next = 9;
-                break;
-              }
-
-              guiState.net.dispose();
-              toggleLoadingUI(true);
-              _context.next = 5;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.changeToArchitecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier
-              });
-
-            case 5:
-              guiState.net = _context.sent;
-              toggleLoadingUI(false);
-              guiState.architecture = guiState.changeToArchitecture;
-              guiState.changeToArchitecture = null;
-
-            case 9:
-              if (!guiState.changeToMultiplier) {
-                _context.next = 18;
-                break;
-              }
-
-              guiState.net.dispose();
-              toggleLoadingUI(true);
-              _context.next = 14;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: +guiState.changeToMultiplier,
-                quantBytes: guiState.quantBytes
-              });
-
-            case 14:
-              guiState.net = _context.sent;
-              toggleLoadingUI(false);
-              guiState.multiplier = +guiState.changeToMultiplier;
-              guiState.changeToMultiplier = null;
-
-            case 18:
-              if (!guiState.changeToOutputStride) {
-                _context.next = 27;
-                break;
-              }
-
-              guiState.net.dispose();
-              toggleLoadingUI(true);
-              _context.next = 23;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.architecture,
-                outputStride: +guiState.changeToOutputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.quantBytes
-              });
-
-            case 23:
-              guiState.net = _context.sent;
-              toggleLoadingUI(false);
-              guiState.outputStride = +guiState.changeToOutputStride;
-              guiState.changeToOutputStride = null;
-
-            case 27:
-              if (!guiState.changeToInputResolution) {
-                _context.next = 36;
-                break;
-              }
-
-              guiState.net.dispose();
-              toggleLoadingUI(true);
-              _context.next = 32;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: +guiState.changeToInputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.quantBytes
-              });
-
-            case 32:
-              guiState.net = _context.sent;
-              toggleLoadingUI(false);
-              guiState.inputResolution = +guiState.changeToInputResolution;
-              guiState.changeToInputResolution = null;
-
-            case 36:
-              if (!guiState.changeToQuantBytes) {
-                _context.next = 45;
-                break;
-              }
-
-              guiState.net.dispose();
-              toggleLoadingUI(true);
-              _context.next = 41;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.changeToQuantBytes
-              });
-
-            case 41:
-              guiState.net = _context.sent;
-              toggleLoadingUI(false);
-              guiState.quantBytes = guiState.changeToQuantBytes;
-              guiState.changeToQuantBytes = null;
-
-            case 45:
-              _context.next = 47;
-              return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
-                architecture: guiState.architecture,
-                outputStride: guiState.outputStride,
-                inputResolution: guiState.inputResolution,
-                multiplier: guiState.multiplier,
-                quantBytes: guiState.quantBytes
-              });
-
-            case 47:
-              guiState.net = _context.sent;
               poses = [];
-              _context.next = 51;
+              _context.next = 3;
               return guiState.net.estimateSinglePose(video, {
                 imageScaleFactor: guiState.imageScaleFactor,
                 flipHorizontal: flipPoseHorizontal,
                 outputStride: guiState.outputStride
               });
 
-            case 51:
+            case 3:
               pose = _context.sent;
               poses = poses.concat(pose);
               minPoseConfidence = +guiState.singlePoseDetection.minPoseConfidence;
@@ -12858,21 +12570,13 @@ function detectPoseInRealTime(video, net) {
                 ctx.restore();
               }
 
-              poses.forEach(function (_ref6) {
-                var score = _ref6.score,
-                    keypoints = _ref6.keypoints;
+              poses.forEach(function (_ref) {
+                var score = _ref.score,
+                    keypoints = _ref.keypoints;
 
                 if (score >= minPoseConfidence) {
                   if (guiState.output.showPoints) {
                     drawKeypoints(keypoints, minPartConfidence, ctx);
-                  }
-
-                  if (guiState.output.showSkeleton) {
-                    drawSkeleton(keypoints, minPartConfidence, ctx);
-                  }
-
-                  if (guiState.output.showBoundingBox) {
-                    drawBoundingBox(keypoints, ctx);
                   }
                 } // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
 
@@ -12886,14 +12590,10 @@ function detectPoseInRealTime(video, net) {
                   clearInterval(hdAlert);
                   hazardDetection = true;
                 }
-
-                console.log(keypoints[0].score);
-                console.log(keypoints[1].score);
-                console.log(keypoints[2].score);
               });
               requestAnimationFrame(poseDetectionFrame);
 
-            case 59:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -12919,7 +12619,7 @@ function _bindPage() {
           case 0:
             toggleLoadingUI(true);
             _context4.next = 3;
-            return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_3__["load"]({
+            return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_2__["load"]({
               architecture: guiState.input.architecture,
               outputStride: guiState.input.outputStride,
               inputResolution: guiState.input.inputResolution,
@@ -12948,9 +12648,10 @@ function _bindPage() {
             throw _context4.t0;
 
           case 17:
+            setupGui([], net);
             detectPoseInRealTime(video, net);
 
-          case 18:
+          case 19:
           case "end":
             return _context4.stop();
         }
