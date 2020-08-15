@@ -114,7 +114,7 @@ const guiState = {
         quantBytes: defaultQuantBytes
     },
     singlePoseDetection: {
-        minPoseConfidence: 0.3,
+        minPoseConfidence: 0.25,
         minPartConfidence: 0.5,
     },
     output: {
