@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head lang="ko-KR">
+        <meta charset="utf-8">
+        <title>Babe Pose Estimation</title>
+        <style>
+            .sk-spinner-pulse {
+                width: 20px;
+                height: 20px;
+                margin: auto 10px;
+                float: left;
+                background-color: #333;
+                border-radius: 100%;
+                -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
+                animation: sk-pulseScaleOut 1s infinite ease-in-out;
+            }
+
+            @-webkit-keyframes sk-pulseScaleOut {
+                0% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+
+                100% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes sk-pulseScaleOut {
+                0% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                }
+
+                100% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                    opacity: 0;
+                }
+            }
+
+            .spinner-text {
+                float: left;
+            }
+        </style>
+    </head>
+    <boby>
+        <div id="info" style='display:none'>
+        </div>
+        <div id="loading" style='display:flex'>
+            <div class="spinner-text">
+                Loading PoseNet model...
+            </div>
+            <div class="sk-spinner sk-spinner-pulse"></div>
+        </div>
+        <div id='main' style='display:none'>
+            <!-- rtc의 localVideo로 사용할 지 poseNet의 video를 사용할지 결정할 것 -->
+            <video id="video" playsinline style="display: none;">
+            </video>
+            <canvas id="output">
+            </canvas>
+        </div>
+
+        <script src="public/dist/bundle.js"></script>
+        <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="public/src/rtc.js"></script>
+    </boby>
+</html>

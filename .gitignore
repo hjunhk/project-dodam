@@ -1,0 +1,12 @@
+# Directories #
+node_modules/
+
+# Files #
+.babelrc
+.gitmessage.txt
+pkey-pair.pem
+note.txt
+
+# JS Files #
+server_rtc.js
+server_pose.js

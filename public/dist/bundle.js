@@ -12318,9 +12318,9 @@ try {
 
 /***/ }),
 
-/***/ "./public/src/main.js":
+/***/ "./public/src/pose.js":
 /*!****************************!*\
-  !*** ./public/src/main.js ***!
+  !*** ./public/src/pose.js ***!
   \****************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -12668,13 +12668,13 @@ bindPage();
 
 /***/ 0:
 /*!**************************************************!*\
-  !*** multi @babel/polyfill ./public/src/main.js ***!
+  !*** multi @babel/polyfill ./public/src/pose.js ***!
   \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! @babel/polyfill */"./node_modules/@babel/polyfill/lib/index.js");
-module.exports = __webpack_require__(/*! ./public/src/main.js */"./public/src/main.js");
+module.exports = __webpack_require__(/*! ./public/src/pose.js */"./public/src/pose.js");
 
 
 /***/ }),

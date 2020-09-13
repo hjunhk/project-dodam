@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Monitoring by WebRTC</title>
+    </head>
+    <body>
+        <div>
+            <!-- <video id="remoteVideo" autoplay width="600" height="600">
+            </video> -->
+            <video id="remoteVideo" playsinline style="display: none;">
+            </video>
+            <canvas id="output">
+            </canvas>
+        </div>
+        <!-- socket.io.js 는 js에서 import 하는 방식으로 변경할 것 -->
+        <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+        <script src="public/src/rtc.js"></script>
+    </body>
+</html>
