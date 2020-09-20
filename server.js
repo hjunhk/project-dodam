@@ -13,8 +13,6 @@ var server = app.listen(port, function() {
 
 app.io = require('socket.io').listen(server);                                // 서버 업로드 후 동작이 안될 수 있음  
 app.io.on('connection', socket => {
-    console.log("connection");                  // debug
-
     function log() {
         let array = ['Message from server:'];
         array.push.apply(array, arguments);
@@ -30,13 +28,14 @@ app.io.on('connection', socket => {
         let clientsInRoom = app.io.sockets.adapter.rooms[room];
         let numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
         log('Room ' + room + ' now has ' + numClients + ' client(s)');
-
+        
         if (numClients === 0) {
             console.log('create room!');
             socket.join(room);
             log('Client ID ' + socket.id + ' created room ' + room);
             socket.emit('created', room, socket.id);
         } else if (numClients === 1) {
+        // } else if (numClients > 0) {
             console.log('join room!');
             log('Client ID ' + socket.id + ' joined room ' + room);
             app.io.sockets.in(room).emit('join', room);
@@ -46,6 +45,10 @@ app.io.on('connection', socket => {
         } else {
             socket.emit('full', room);
         }
+    });
+
+    socket.on('disconnect', room => {
+       log('Client ID ' + socket.id + ' disconnected from ' + room);
     });
 });
 

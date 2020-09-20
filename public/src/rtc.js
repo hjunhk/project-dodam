@@ -8,7 +8,7 @@ let isChannelReady = false;
 const videoWidth = 600;
 const videoHeight = 500;
 
-let socket = io.connect();
+var socket = io.connect();
 
 let pcConfig = {
     'iceServers': [{
@@ -45,6 +45,7 @@ socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
     isChannelReady = true;
+    isStarted = false;
 })
 
 socket.on('joined', room => {
