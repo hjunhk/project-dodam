@@ -51,6 +51,7 @@ socket.on('join', room => {
 socket.on('joined', room => {
     console.log('joined: ' + room);
     isChannelReady = true;
+    // isStarted = false;
 })
 
 socket.on('log', array => {

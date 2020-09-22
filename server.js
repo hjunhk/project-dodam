@@ -7,6 +7,14 @@ var port = 8080;
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
+app.use(function(req, res, next) {
+   if (!req.secure) {
+       res.redirect("https://project-dodam.com" + req.url);
+   } else {
+       next();
+   }
+})
+
 var server = app.listen(port, function() {
     console.log('Server Start, Port : ' + port);
 });
