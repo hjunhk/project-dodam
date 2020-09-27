@@ -7,27 +7,13 @@ var port = 8080;
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
-// app.use(function(req, res, next) {
-//    if (req.secure) {
-//        next();
-//    } else {
-//        res.redirect("https://" + req.headers.host + req.url);
-//    }
-// })
-
-app.all('*', (res, req, next) => {
-    let protocol = req.headers['x-forwarded-proto'] || req.protocol;
-
-    if (protocol == 'https') {
-        next();
-    } else {
-        let from = `${protocol}://${req.hostname}${req.url}`;
-        let to = `https://'${req.hostname}${req.url}`;
-
-        console.log(`[${req.method}]: ${from} -> ${to}`);
-        res.redirect(to);
-    }
-});
+app.use(function(req, res, next) {
+   if (req.secure) {
+       next();
+   } else {
+       res.redirect("https://" + req.headers.host + req.url);
+   }
+})
 
 var server = app.listen(port, function() {
     console.log('Server Start, Port : ' + port);
