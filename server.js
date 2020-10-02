@@ -7,17 +7,21 @@ var port = 8080;
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
-app.use(function(req, res, next) {
-   if (req.secure) {
-       next();
-   } else {
-       res.redirect("https://" + req.headers.host + req.url);
-   }
-})
-
 var server = app.listen(port, function() {
     console.log('Server Start, Port : ' + port);
 });
+
+app.use(function(req, res, next) {
+    // console.log(req);                           // debug
+    // console.log(req.secure);                    // debug - result: false
+    // console.log(req.rawHeaders);                // debug  
+
+    if (!req.secure && req.get('X-Forwarded-Proto') !== 'https') {
+        res.redirect("https://" + req.headers.host + req.url);
+    } else {
+        next();
+    }
+ });
 
 app.io = require('socket.io').listen(server);                                // 서버 업로드 후 동작이 안될 수 있음  
 app.io.on('connection', socket => {
