@@ -1,20 +1,16 @@
 import * as posenet from '@tensorflow-models/posenet';
-import swal from 'sweetalert';
 
 const videoWidth = 600;
 const videoHeight = 500;
 
 const color = 'white';
 
-var usrAlert = {};
-
-usrAlert.alert = function() {
-    swal({
-        title: "위험 상황!",
-        text: "아이의 자세를 확인해주세요!",
-        icon: "info",
-        closeOnClickOutside: true,
-    })
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    let results = regex.exec(location.search);
+    
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function isAndroid() {
@@ -66,7 +62,8 @@ function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'm
 
 async function setupCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Browser API navigator.mediaDevices.getUserMedia not available');
+        // throw new Error('Browser API navigator.mediaDevices.getUserMedia not available.');
+        throw new Error('브라우저 API navigator.mediaDevices.getUserMedia 를 사용할 수 없습니다.');
     }
 
     const video = document.getElementById('video');
@@ -140,6 +137,38 @@ function setupGui(cameras, net) {
     guiState.quantBytes = guiState.input.quantBytes;
 }
 
+function postDataToPhp(room, data) {
+    let xhr = new XMLHttpRequest();
+    let url = 'http://dodam123.dothome.co.kr/CheckUTAvailability.php';
+    let params = 'UserNum=' + room;
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(xhr.responseText);
+
+            if (response["NumRows"] === 0) {
+                url = 'http://dodam123.dothome.co.kr/PostUrgentNum1.php';
+                params = 'UserNum=' + room + '&urgent_num=' + data;
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send(params);
+            } else if (response["NumRows"] === 1) {
+                url = 'http://dodam123.dothome.co.kr/PostUrgentNum2.php';
+                params = 'UserNum=' + room + '&urgent_num=' + data;
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.send(params);
+            }
+        }
+    }
+
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(params);
+}
+
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
     const ctx = canvas.getContext('2d');
@@ -148,9 +177,11 @@ function detectPoseInRealTime(video, net) {
     canvas.width = videoWidth;
     canvas.height = videoHeight;
 
-    var hazardDetection = true;
-    var hdAlert;
+    let hazardAlert;
+    let hazardDetection = true;
 
+    var room = getParameterByName('room');
+    
     async function poseDetectionFrame() {
         let poses = [];
         let minPoseConfidence;
@@ -187,12 +218,17 @@ function detectPoseInRealTime(video, net) {
             if (keypoints[0].score < minPoseConfidence || 
                 (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
                 if (hazardDetection) {
-                    hdAlert = setInterval(usrAlert.alert, 3000);
+                    hazardAlert = setInterval(postDataToPhp, 5000, room, 1);        // 딜레이는 시연 단계 이후 더 늘려야 함
+
                     hazardDetection = false;
                 }
             } else {
-                clearInterval(hdAlert);
-                hazardDetection = true;
+                if (!hazardDetection) {
+                    clearInterval(hazardAlert);
+                    postDataToPhp(room, 0);
+
+                    hazardDetection = true;
+                }
             }
         });
 
@@ -221,8 +257,10 @@ async function bindPage() {
         video = await loadVideo();
     } catch (e) {
         let info = document.getElementById('info');
-        info.textContent = 'this browser does not support video capture,' + 'or this device does not have a camera';
+        // info.textContent = 'this browser does not support video capture,' + 'or this device does not have a camera';
+        info.textContent = '해당 브라우저가 비디오 캡처를 지원하지 않거나, ' + '장치에 카메라가 없습니다.';
         info.style.display = 'block';
+
         throw e;
     }
 

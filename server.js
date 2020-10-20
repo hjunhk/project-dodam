@@ -1,21 +1,19 @@
 var express = require('express');
 var fs = require('fs');
 
-var app = express();
-var port = 8080;
+let app = express();
+let port = 8080;
 
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
+app.use('/css', express.static(__dirname + '/css'));
 
-var server = app.listen(port, function() {
+let server = app.listen(port, function() {
     console.log('Server Start, Port : ' + port);
 });
 
+/*     HTTP to HTTPS Redirect(로컬테스트 시 주석 처리할 것)     */
 app.use(function(req, res, next) {
-    // console.log(req);                           // debug
-    // console.log(req.secure);                    // debug - result: false
-    // console.log(req.rawHeaders);                // debug  
-
     if (!req.secure && req.get('X-Forwarded-Proto') !== 'https') {
         res.redirect("https://" + req.headers.host + req.url);
     } else {
@@ -23,7 +21,7 @@ app.use(function(req, res, next) {
     }
  });
 
-app.io = require('socket.io').listen(server);                                // 서버 업로드 후 동작이 안될 수 있음  
+app.io = require('socket.io').listen(server);
 app.io.on('connection', socket => {
     function log() {
         let array = ['Message from server:'];
@@ -47,7 +45,6 @@ app.io.on('connection', socket => {
             log('Client ID ' + socket.id + ' created room ' + room);
             socket.emit('created', room, socket.id);
         } else if (numClients === 1) {
-        // } else if (numClients > 0) {
             console.log('join room!');
             log('Client ID ' + socket.id + ' joined room ' + room);
             app.io.sockets.in(room).emit('join', room);

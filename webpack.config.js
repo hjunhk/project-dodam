@@ -13,7 +13,7 @@ module.exports = {
                 include: [
                     path.resolve(__dirname, 'public/src')
                 ],
-                exclude: /node_modules/,
+                exclude: '/node_modules/',
                 use: {
                     loader: 'babel-loader',
                     options: {
