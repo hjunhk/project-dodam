@@ -12324,8 +12324,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var videoWidth = 600;
-var videoHeight = 500;
+var videoWidth = screen.availWidth;
+var videoHeight = screen.availHeight;
 var color = 'white';
 
 function getParameterByName(name) {

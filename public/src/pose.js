@@ -1,7 +1,7 @@
 import * as posenet from '@tensorflow-models/posenet';
 
-const videoWidth = 600;
-const videoHeight = 500;
+const videoWidth = screen.availWidth;
+const videoHeight = screen.availHeight;
 
 const color = 'white';
 

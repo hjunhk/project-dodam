@@ -5,10 +5,10 @@ let isInitiator = false;
 let isStarted = false;
 let isChannelReady = false;
 
-const videoWidth = 600;
-const videoHeight = 500;
+const videoWidth = screen.availWidth;
+const videoHeight = screen.availHeight;
 
-var socket = io.connect();
+let socket = io.connect();
 
 let pcConfig = {
     'iceServers': [{
@@ -21,13 +21,17 @@ let mode = parseInt(getParameterByName('mode'));
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-    var results = regex.exec(location.search);
+    let regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+    let results = regex.exec(location.search);
     
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-if(room !== '') {
+if (room !== '') {
+    if (mode === 1) {
+        toggleLoadingUI(true);
+    }
+
     socket.emit('create or join', room);
     console.log('Attempted to create or join room', room);
 }
@@ -35,28 +39,27 @@ if(room !== '') {
 socket.on('created', (room, id) => {
     console.log('Create room ' + room + ' socket ID: ' + id);
     isInitiator = true;
-})
+});
 
 socket.on('full', room => {
     console.log('Room ' + room + ' is full');
-})
+});
 
 socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
     isChannelReady = true;
     isStarted = false;
-})
+});
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
     isChannelReady = true;
-    // isStarted = false;
-})
+});
 
 socket.on('log', array => {
     console.log.apply(console, array);
-})
+});
 
 socket.on('message', (message) => {
     console.log('Client received message:', message);
@@ -80,7 +83,17 @@ socket.on('message', (message) => {
 
         pc.addIceCandidate(candidate);
     }
-})
+});
+
+function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'main') {
+    if (showLoadingUI) {
+        document.getElementById(loadingDivId).style.display = 'block';
+        document.getElementById(mainDivId).style.display = 'none';
+    } else {
+        document.getElementById(loadingDivId).style.display = 'none';
+        document.getElementById(mainDivId).style.display = 'block';
+    }
+}
 
 navigator.mediaDevices.getUserMedia({
     video: true,
@@ -88,7 +101,6 @@ navigator.mediaDevices.getUserMedia({
 }).then(gotStream).catch((error) => console.error(error));
 
 function gotStream(stream) {
-    // console.log(stream);                    // debug
     console.log("Adding local stream");
     localStream = stream;
     sendMessage("got user media");
@@ -111,11 +123,11 @@ function createPeerConnection() {
         if (mode === 1) {
             pc.ontrack = handleRemoteStreamAdded;
         }
-        // console.log(pc);                                // debug
+        
         console.log("Created RTCPeerConnection");
     } catch (e) {
-        // sweetalert로 대체 할 것
-        alert("cannot create RTCPeerConnection object");
+        console.error("Cannot create RTCPeerConnection object");
+
         return;
     }
 }
@@ -140,9 +152,9 @@ function handleCreateOfferError(event) {
 }
 
 function handleRemoteStreamAdded(event) {
+    toggleLoadingUI(false);
+
     console.log("remote stream added");
-    // console.log(event.streams[0]);                     // debug
-    // console.log(typeof(remoteStream));                      // debug
 
     const remoteVideo = document.getElementById('remoteVideo');
 
@@ -164,8 +176,6 @@ function drawCanvasInRealtime(video) {
     canvas.width = videoWidth;
     canvas.height = videoHeight;
 
-    console.log(video);
-
     async function remoteVideoFrame() {
         ctx.clearRect(0, 0, videoWidth, videoHeight);
         ctx.save();
@@ -186,10 +196,8 @@ function maybeStart() {
     if (!isStarted && typeof localStream !== "undefined" && isChannelReady) {
         console.log(">>>>> creating peer connection");
         createPeerConnection();
-        // pc.addStream(localStream);       // == pc.addTrack()
         localStream.getTracks().forEach(track => {
             pc.addTrack(track, localStream);
-            // console.log('addTrack!');
         });
         
         isStarted = true;
@@ -199,7 +207,6 @@ function maybeStart() {
             doCall();
         }
     } else {
-        // console.log(isStarted + ' ' + isChannelReady);          // debug
         console.error('maybeStart not Started!');
     }
 }

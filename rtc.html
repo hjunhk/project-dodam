@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <title>Monitoring by WebRTC</title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>WebRTC 모니터링 프로세스 - Monitoring by WebRTC</title>
+        <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <div>
-            <!-- <video id="remoteVideo" autoplay width="600" height="600">
-            </video> -->
-            <video id="remoteVideo" playsinline style="display: none;">
+        <div id="loading" style='display:flex'>
+            <div class="spinner-text">
+                WebRTC Peer Connection 및 Remote Stream 설정중...
+            </div>
+            <div class="sk-spinner sk-spinner-pulse"></div>
+        </div>
+        <div id='main' style='display:none'>
+            <video id="remoteVideo" class="fullscreen" playsinline style="display: none;">
             </video>
-            <canvas id="output">
+            <canvas id="output" class="fullscreen">
             </canvas>
         </div>
-        <!-- socket.io.js 는 js에서 import 하는 방식으로 변경할 것 -->
         <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
         <script src="public/src/rtc.js"></script>
     </body>

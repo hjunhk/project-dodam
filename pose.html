@@ -1,70 +1,29 @@
 <!DOCTYPE html>
 <html>
     <head lang="ko-KR">
-        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <title>Babe Pose Estimation</title>
-        <style>
-            .sk-spinner-pulse {
-                width: 20px;
-                height: 20px;
-                margin: auto 10px;
-                float: left;
-                background-color: #333;
-                border-radius: 100%;
-                -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
-                animation: sk-pulseScaleOut 1s infinite ease-in-out;
-            }
-
-            @-webkit-keyframes sk-pulseScaleOut {
-                0% {
-                    -webkit-transform: scale(0);
-                    transform: scale(0);
-                }
-
-                100% {
-                    -webkit-transform: scale(1.0);
-                    transform: scale(1.0);
-                    opacity: 0;
-                }
-            }
-
-            @keyframes sk-pulseScaleOut {
-                0% {
-                    -webkit-transform: scale(0);
-                    transform: scale(0);
-                }
-
-                100% {
-                    -webkit-transform: scale(1.0);
-                    transform: scale(1.0);
-                    opacity: 0;
-                }
-            }
-
-            .spinner-text {
-                float: left;
-            }
-        </style>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>영유아 자세 추정 프로세스 - Babe Pose Estimation</title>
+        <link href="css/style.css" rel="stylesheet">
     </head>
-    <boby>
-        <div id="info" style='display:none'>
+    <body>
+        <div id="info" class="info-text" style='display:none'>
         </div>
         <div id="loading" style='display:flex'>
             <div class="spinner-text">
-                Loading PoseNet model...
+                <!-- Loading PoseNet model... -->
+                Tensorflow.js PoseNet 모델 로딩중...
             </div>
             <div class="sk-spinner sk-spinner-pulse"></div>
         </div>
         <div id='main' style='display:none'>
-            <!-- rtc의 localVideo로 사용할 지 poseNet의 video를 사용할지 결정할 것 -->
-            <video id="video" playsinline style="display: none;">
+            <video id="video" class="fullscreen" playsinline style="display: none;">
             </video>
-            <canvas id="output">
+            <canvas id="output" class="fullscreen">
             </canvas>
         </div>
 
         <script src="public/dist/bundle.js"></script>
         <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
         <script src="public/src/rtc.js"></script>
-    </boby>
+    </body>
 </html>
