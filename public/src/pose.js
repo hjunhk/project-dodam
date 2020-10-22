@@ -70,13 +70,12 @@ async function setupCamera() {
     video.width = videoWidth;
     video.height = videoHeight;
 
-    const mobile = isMobile();
     const stream = await navigator.mediaDevices.getUserMedia({
         'audio': false,
         'video': {
             facingMode: 'user',
-            width: mobile ? undefined : videoWidth,
-            height: mobile ? undefined : videoHeight,
+            width: videoWidth,
+            height: videoHeight,
         },
     });
     video.srcObject = stream;
