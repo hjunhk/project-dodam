@@ -48,13 +48,12 @@ socket.on('full', room => {
 socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
+    isChannelReady = true;
 });
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
     isChannelReady = true;
-    isStarted = false;
-    isInitiator = true;
 });
 
 socket.on('log', array => {
