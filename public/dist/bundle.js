@@ -12420,7 +12420,7 @@ function setupCamera() {
 
 function _setupCamera() {
   _setupCamera = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-    var video, mobile, stream;
+    var video, stream;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -12436,18 +12436,17 @@ function _setupCamera() {
             video = document.getElementById('video');
             video.width = videoWidth;
             video.height = videoHeight;
-            mobile = isMobile();
-            _context2.next = 8;
+            _context2.next = 7;
             return navigator.mediaDevices.getUserMedia({
               'audio': false,
               'video': {
                 facingMode: 'user',
-                width: mobile ? videoWidth * 2 : videoWidth,
-                height: mobile ? videoHeight * 2 : videoHeight
+                width: videoWidth,
+                height: videoHeight
               }
             });
 
-          case 8:
+          case 7:
             stream = _context2.sent;
             video.srcObject = stream;
             return _context2.abrupt("return", new Promise(function (resolve) {
@@ -12456,7 +12455,7 @@ function _setupCamera() {
               };
             }));
 
-          case 11:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -12498,7 +12497,10 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = 500;
+var defaultMobileNetInputResolution = {
+  width: videoWidth,
+  height: videoHeight
+};
 var guiState = {
   algorithm: 'single-pose',
   input: {

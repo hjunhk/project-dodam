@@ -82,13 +82,12 @@ async function setupCamera() {
     video.width = videoWidth;
     video.height = videoHeight;
 
-    const mobile = isMobile();
     const stream = await navigator.mediaDevices.getUserMedia({
         'audio': false,
         'video': {
             facingMode: 'user',
-            width: mobile ? videoWidth * 2 : videoWidth,
-            height: mobile ? videoHeight * 2 : videoHeight,
+            width: videoWidth,
+            height: videoHeight,
         },
     });
     video.srcObject = stream;
@@ -111,7 +110,7 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = 500;
+const defaultMobileNetInputResolution = { width: videoWidth, height: videoHeight };
 
 const guiState = {
     algorithm: 'single-pose',
