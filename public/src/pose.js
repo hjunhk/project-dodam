@@ -1,8 +1,8 @@
 import * as posenet from '@tensorflow-models/posenet';
 import swal from 'sweetalert';
 
-const videoWidth = isMobile() ? screen.availWidth * 2 : screen.availWidth;
-const videoHeight = isMobile() ? screen.availHeight * 2 : screen.availHeight;
+const videoWidth = screen.availWidth;
+const videoHeight = screen.availHeight;
 
 const color = 'white';
 
@@ -120,7 +120,7 @@ const guiState = {
         inputResolution: defaultMobileNetInputResolution,
         multiplier: defaultMobileNetMultiplier,
         quantBytes: defaultQuantBytes,
-        imageScaleFactor: 0.5,
+        imageScaleFactor: 0.25,
     },
     singlePoseDetection: {
         minPoseConfidence: 0.25,
@@ -239,7 +239,7 @@ function detectPoseInRealTime(video, net) {
             } else {
                 if (!hazardDetection) {
                     clearInterval(hazardAlert);
-                    postDataToPhp(room, 0);
+                    // postDataToPhp(room, 0);
 
                     hazardDetection = true;
                 }
