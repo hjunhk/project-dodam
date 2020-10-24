@@ -12497,7 +12497,10 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = {
+var defaultMobileNetInputResolution = isMobile() ? {
+  width: videoWidth * 2,
+  height: videoHeight * 2
+} : {
   width: videoWidth,
   height: videoHeight
 };

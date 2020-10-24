@@ -110,7 +110,7 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = { width: videoWidth, height: videoHeight };
+const defaultMobileNetInputResolution = isMobile()? { width: videoWidth * 2, height: videoHeight * 2} : { width: videoWidth, height: videoHeight };
 
 const guiState = {
     algorithm: 'single-pose',
@@ -119,7 +119,7 @@ const guiState = {
         outputStride: defaultMobileNetStride,
         inputResolution: defaultMobileNetInputResolution,
         multiplier: defaultMobileNetMultiplier,
-        quantBytes: defaultQuantBytes
+        quantBytes: defaultQuantBytes,
     },
     singlePoseDetection: {
         minPoseConfidence: 0.25,
