@@ -12393,7 +12393,7 @@ function drawKeypoints(keypoints, minConfidence, ctx) {
     var _keypoint$position = keypoint.position,
         y = _keypoint$position.y,
         x = _keypoint$position.x;
-    drawPoint(ctx, y * scale, x * scale, 3, color);
+    drawPoint(ctx, y * scale, x * scale, 4, color);
   }
 }
 
