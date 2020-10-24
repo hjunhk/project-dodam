@@ -12497,7 +12497,10 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = {
+var defaultMobileNetInputResolution = isMobile() ? {
+  width: videoWidth / 2,
+  height: videoHeight / 2
+} : {
   width: videoWidth,
   height: videoHeight
 };
@@ -12572,7 +12575,7 @@ function postDataToPhp(room, data) {
 function detectPoseInRealTime(video, net) {
   var canvas = document.getElementById('output');
   var ctx = canvas.getContext('2d');
-  var flipPoseHorizontal = isMobile() ? false : true;
+  var flipPoseHorizontal = true;
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   var hazardAlert;

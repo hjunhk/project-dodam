@@ -110,7 +110,7 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = { width: videoWidth, height: videoHeight };
+const defaultMobileNetInputResolution = isMobile() ? { width: videoWidth / 2, height: videoHeight / 2 } : { width: videoWidth, height: videoHeight };
 
 const guiState = {
     algorithm: 'single-pose',
@@ -185,7 +185,7 @@ function postDataToPhp(room, data) {
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
     const ctx = canvas.getContext('2d');
-    const flipPoseHorizontal = isMobile() ? false : true;
+    const flipPoseHorizontal = true;
 
     canvas.width = videoWidth;
     canvas.height = videoHeight;
