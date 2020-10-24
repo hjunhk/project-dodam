@@ -1,9 +1,22 @@
 import * as posenet from '@tensorflow-models/posenet';
+import swal from 'sweetalert';
 
 const videoWidth = screen.availWidth;
 const videoHeight = screen.availHeight;
 
 const color = 'white';
+
+var usrAlert = {};
+
+usrAlert.alert = function() {
+    swal({
+        className: "sweet-alert",
+        title: "위험 상황!",
+        text: "아이의 자세를 확인해주세요!",
+        icon: "warning",
+        closeOnClickOutside: true,
+    })
+}
 
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -62,7 +75,6 @@ function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'm
 
 async function setupCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        // throw new Error('Browser API navigator.mediaDevices.getUserMedia not available.');
         throw new Error('브라우저 API navigator.mediaDevices.getUserMedia 를 사용할 수 없습니다.');
     }
 
@@ -70,12 +82,13 @@ async function setupCamera() {
     video.width = videoWidth;
     video.height = videoHeight;
 
+    const mobile = isMobile();
     const stream = await navigator.mediaDevices.getUserMedia({
         'audio': false,
         'video': {
             facingMode: 'user',
-            width: videoWidth,
-            height: videoHeight,
+            width: mobile ? videoWidth * 2 : videoWidth,
+            height: mobile ? videoHeight * 2 : videoHeight,
         },
     });
     video.srcObject = stream;
@@ -217,7 +230,8 @@ function detectPoseInRealTime(video, net) {
             if (keypoints[0].score < minPoseConfidence || 
                 (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
                 if (hazardDetection) {
-                    hazardAlert = setInterval(postDataToPhp, 5000, room, 1);        // 딜레이는 시연 단계 이후 더 늘려야 함
+                    // hazardAlert = setInterval(postDataToPhp, 5000, room, 1);        // 딜레이는 시연 단계 이후 조정 할 것
+                    hazardAlert = setInterval(usrAlert.alert, 5000);                      // test
 
                     hazardDetection = false;
                 }
@@ -256,7 +270,6 @@ async function bindPage() {
         video = await loadVideo();
     } catch (e) {
         let info = document.getElementById('info');
-        // info.textContent = 'this browser does not support video capture,' + 'or this device does not have a camera';
         info.textContent = '해당 브라우저가 비디오 캡처를 지원하지 않거나, ' + '장치에 카메라가 없습니다.';
         info.style.display = 'block';
 

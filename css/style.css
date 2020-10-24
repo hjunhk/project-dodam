@@ -1,3 +1,36 @@
+/* test */
+@media (max-width: 500px) {
+    .swal-modal {
+        transform: scale(0.8);
+    }
+}
+
+.swal-icon:first-child {
+    margin-top: 20px;
+    margin-bottom: 7px;
+}
+
+.swal-title {
+    font-size: 30px;
+    padding: 5px 10px;
+}
+
+.swal-title:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.swal-text {
+    font-size: 16px;
+}
+
+.swal-footer {
+    margin-top: 5px;
+}
+
+.swal-button {
+    font-size: 13px;
+}
+
 @font-face {
     font-family: "Noto Sans KR";
     src: url("fonts/NotoSansKR-Regular.woff") format("woff");
@@ -78,6 +111,11 @@ html, body, #main {
         -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
         animation: sk-pulseScaleOut 1s infinite ease-in-out;
     }
+
+    /* test */
+    .swal-modal {
+        transform: scale(0.8) !important;
+    }
 }
 
 /* Tablet */
@@ -101,6 +139,11 @@ html, body, #main {
         -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
         animation: sk-pulseScaleOut 1s infinite ease-in-out;
     }
+
+    /* test */
+    .swal-modal {
+        transform: scale(0.9);
+    }
 }
 
 /* Desktop or Laptop */
@@ -123,5 +166,10 @@ html, body, #main {
         border-radius: 100%;
         -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
         animation: sk-pulseScaleOut 1s infinite ease-in-out;
+    }
+
+    /* test */
+    .swal-modal {
+        transform: scale(1);
     }
 }
