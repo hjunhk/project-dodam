@@ -54,7 +54,6 @@ socket.on('join', room => {
 socket.on('joined', room => {
     console.log('joined: ' + room);
     isChannelReady = true;
-    isInitiator = true;
 });
 
 socket.on('log', array => {
@@ -104,6 +103,10 @@ function gotStream(stream) {
     console.log("Adding local stream");
     localStream = stream;
     sendMessage("got user media");
+
+    if (mode === 1) {
+        isInitiator = true;
+    }
 
     if (isInitiator) {
         maybeStart();
