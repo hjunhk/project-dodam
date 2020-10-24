@@ -12497,10 +12497,7 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = isMobile() ? {
-  width: videoWidth * 2,
-  height: videoHeight * 2
-} : {
+var defaultMobileNetInputResolution = {
   width: videoWidth,
   height: videoHeight
 };
@@ -12511,7 +12508,8 @@ var guiState = {
     outputStride: defaultMobileNetStride,
     inputResolution: defaultMobileNetInputResolution,
     multiplier: defaultMobileNetMultiplier,
-    quantBytes: defaultQuantBytes
+    quantBytes: defaultQuantBytes,
+    imageScaleFactor: 0.5
   },
   singlePoseDetection: {
     minPoseConfidence: 0.25,
@@ -12538,6 +12536,7 @@ function setupGui(cameras, net) {
   guiState.outputStride = guiState.input.outputStride;
   guiState.multiplier = guiState.input.multiplier;
   guiState.quantBytes = guiState.input.quantBytes;
+  guiState.imageScaleFactor = guiState.input.imageScaleFactor;
 }
 
 function postDataToPhp(room, data) {
@@ -12573,7 +12572,7 @@ function postDataToPhp(room, data) {
 function detectPoseInRealTime(video, net) {
   var canvas = document.getElementById('output');
   var ctx = canvas.getContext('2d');
-  var flipPoseHorizontal = true;
+  var flipPoseHorizontal = isMobile() ? false : true;
   canvas.width = videoWidth;
   canvas.height = videoHeight;
   var hazardAlert;

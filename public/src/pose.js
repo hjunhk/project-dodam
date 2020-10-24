@@ -110,7 +110,7 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = isMobile()? { width: videoWidth * 2, height: videoHeight * 2} : { width: videoWidth, height: videoHeight };
+const defaultMobileNetInputResolution = { width: videoWidth, height: videoHeight };
 
 const guiState = {
     algorithm: 'single-pose',
@@ -120,6 +120,7 @@ const guiState = {
         inputResolution: defaultMobileNetInputResolution,
         multiplier: defaultMobileNetMultiplier,
         quantBytes: defaultQuantBytes,
+        imageScaleFactor: 0.5,
     },
     singlePoseDetection: {
         minPoseConfidence: 0.25,
@@ -146,6 +147,7 @@ function setupGui(cameras, net) {
     guiState.outputStride = guiState.input.outputStride;
     guiState.multiplier = guiState.input.multiplier;
     guiState.quantBytes = guiState.input.quantBytes;
+    guiState.imageScaleFactor = guiState.input.imageScaleFactor;
 }
 
 function postDataToPhp(room, data) {
@@ -183,7 +185,7 @@ function postDataToPhp(room, data) {
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
     const ctx = canvas.getContext('2d');
-    const flipPoseHorizontal = true;
+    const flipPoseHorizontal = isMobile() ? false : true;
 
     canvas.width = videoWidth;
     canvas.height = videoHeight;
