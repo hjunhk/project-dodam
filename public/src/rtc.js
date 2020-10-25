@@ -53,7 +53,6 @@ socket.on('join', room => {
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
-    isChannelReady = true;
 });
 
 socket.on('log', array => {
@@ -106,6 +105,8 @@ function gotStream(stream) {
 
     if (mode === 1) {
         isInitiator = true;
+        isChannelReady = true;
+        isStarted = false;
     }
 
     if (isInitiator) {

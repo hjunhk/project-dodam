@@ -12349,6 +12349,7 @@ usrAlert.alert = function () {
     title: "위험 상황!",
     text: "아이의 자세를 확인해주세요!",
     icon: "warning",
+    timer: 2000,
     closeOnClickOutside: true
   });
 };
@@ -12626,8 +12627,8 @@ function detectPoseInRealTime(video, net) {
 
                 if (keypoints[0].score < minPoseConfidence || keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence) {
                   if (hazardDetection) {
-                    // hazardAlert = setInterval(postDataToPhp, 5000, room, 1);        // 딜레이는 시연 단계 이후 조정 할 것
-                    hazardAlert = setInterval(usrAlert.alert, 5000); // test
+                    // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);        // 딜레이는 시연 단계 이후 조정 할 것
+                    hazardAlert = setInterval(usrAlert.alert, 3000); // test
 
                     hazardDetection = false;
                   }
