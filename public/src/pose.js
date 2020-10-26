@@ -121,7 +121,7 @@ const guiState = {
         inputResolution: defaultMobileNetInputResolution,
         multiplier: defaultMobileNetMultiplier,
         quantBytes: defaultQuantBytes,
-        imageScaleFactor: 0.25,
+        imageScaleFactor: 0.5,
     },
     singlePoseDetection: {
         minPoseConfidence: 0.25,
@@ -227,19 +227,21 @@ function detectPoseInRealTime(video, net) {
                     drawKeypoints(keypoints, minPartConfidence, ctx);
                 }
             }
+
+            console.log(keypoints);                                                         // test
             
             // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
             if (keypoints[0].score < minPoseConfidence || 
                 (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
                 if (hazardDetection) {
-                    // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);        // 딜레이는 시연 단계 이후 조정 할 것
-                    hazardAlert = setInterval(usrAlert.alert, 3000);                      // test
+                    // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);                // 딜레이는 시연 단계 이후 조정 할 것
+                    // hazardAlert = setInterval(usrAlert.alert, 3000);                        // test
 
                     hazardDetection = false;
                 }
             } else {
                 if (!hazardDetection) {
-                    clearInterval(hazardAlert);
+                    // clearInterval(hazardAlert);
                     // postDataToPhp(room, 0);
 
                     hazardDetection = true;
