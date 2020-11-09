@@ -12449,14 +12449,17 @@ function _setupCamera() {
 
           case 7:
             stream = _context2.sent;
-            video.srcObject = stream;
+            video.srcObject = stream; // debug
+
+            alert("html: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);
+            alert("posenet: " + videoWidth + ', ' + videoHeight);
             return _context2.abrupt("return", new Promise(function (resolve) {
               video.onloadedmetadata = function () {
                 resolve(video);
               };
             }));
 
-          case 10:
+          case 12:
           case "end":
             return _context2.stop();
         }
@@ -12622,10 +12625,10 @@ function detectPoseInRealTime(video, net) {
                   if (guiState.output.showPoints) {
                     drawKeypoints(keypoints, minPartConfidence, ctx);
                   }
-                }
-
-                console.log(keypoints); // test
+                } // test
+                // console.log(keypoints);
                 // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
+
 
                 if (keypoints[0].score < minPoseConfidence || keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence) {
                   if (hazardDetection) {

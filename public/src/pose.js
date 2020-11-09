@@ -93,6 +93,10 @@ async function setupCamera() {
     });
     video.srcObject = stream;
 
+    // debug
+    alert("html: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);
+    alert("posenet: " + videoWidth + ', ' + videoHeight);
+
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
             resolve(video);
@@ -228,7 +232,8 @@ function detectPoseInRealTime(video, net) {
                 }
             }
 
-            console.log(keypoints);                                                         // test
+            // test
+            // console.log(keypoints);
             
             // [0]코, keypoints[1]왼쪽 눈과 [2]오른쪽 눈 위치가 파악이 안될 때
             if (keypoints[0].score < minPoseConfidence || 

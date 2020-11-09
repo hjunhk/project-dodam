@@ -82,7 +82,7 @@ socket.on('message', (message) => {
             sdpMLineIndex: message.label,
             candidate: message.candidate
         });
-
+        
         pc.addIceCandidate(candidate);
     }
 });
