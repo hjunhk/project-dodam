@@ -12339,7 +12339,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var videoWidth = screen.availWidth;
-var videoHeight = screen.availHeight;
+var videoHeight = screen.availHeight; // debug
+// console.log(videoWidth);
+// console.log(videoHeight);
+// let videoWidth;
+// let videoHeight;
+// if (isMobile()) {
+//     videoWidth = screen.availWidth * 2;
+//     videoHeight = screen.availHeight * 2;
+// } else {
+//     videoWidth = screen.availWidth;
+//     videoHeight = screen.availHeight;
+// }
+
 var color = 'white';
 var usrAlert = {};
 
@@ -12450,16 +12462,20 @@ function _setupCamera() {
           case 7:
             stream = _context2.sent;
             video.srcObject = stream; // debug
+            // console.log(stream);
 
-            alert("html: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);
-            alert("posenet: " + videoWidth + ', ' + videoHeight);
+            alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height); // iphone test 375, 812
+
+            alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height); // iphone test 300, 150
+
+            alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
             return _context2.abrupt("return", new Promise(function (resolve) {
               video.onloadedmetadata = function () {
                 resolve(video);
               };
             }));
 
-          case 12:
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -12575,13 +12591,15 @@ function postDataToPhp(room, data) {
 
 function detectPoseInRealTime(video, net) {
   var canvas = document.getElementById('output');
-  var ctx = canvas.getContext('2d');
   var flipPoseHorizontal = true;
   canvas.width = videoWidth;
   canvas.height = videoHeight;
+  var ctx = canvas.getContext('2d');
   var hazardAlert;
   var hazardDetection = true;
-  var room = getParameterByName('room');
+  var room = getParameterByName('room'); // debug
+
+  alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
 
   function poseDetectionFrame() {
     return _poseDetectionFrame.apply(this, arguments);
@@ -12670,8 +12688,10 @@ function _bindPage() {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            toggleLoadingUI(true);
-            _context4.next = 3;
+            toggleLoadingUI(true); // debug
+
+            alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
+            _context4.next = 4;
             return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_2__["load"]({
               architecture: guiState.input.architecture,
               outputStride: guiState.input.outputStride,
@@ -12680,36 +12700,38 @@ function _bindPage() {
               quantBytes: guiState.input.quantBytes
             });
 
-          case 3:
+          case 4:
             net = _context4.sent;
             toggleLoadingUI(false);
-            _context4.prev = 5;
-            _context4.next = 8;
+            _context4.prev = 6;
+            _context4.next = 9;
             return loadVideo();
 
-          case 8:
+          case 9:
             video = _context4.sent;
-            _context4.next = 17;
+            _context4.next = 18;
             break;
 
-          case 11:
-            _context4.prev = 11;
-            _context4.t0 = _context4["catch"](5);
+          case 12:
+            _context4.prev = 12;
+            _context4.t0 = _context4["catch"](6);
             info = document.getElementById('info');
             info.textContent = '해당 브라우저가 비디오 캡처를 지원하지 않거나, ' + '장치에 카메라가 없습니다.';
             info.style.display = 'block';
             throw _context4.t0;
 
-          case 17:
+          case 18:
+            // debug
+            console.log(video);
             setupGui([], net);
             detectPoseInRealTime(video, net);
 
-          case 19:
+          case 21:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[5, 11]]);
+    }, _callee4, null, [[6, 12]]);
   }));
   return _bindPage.apply(this, arguments);
 }

@@ -4,6 +4,20 @@ import swal from 'sweetalert';
 const videoWidth = screen.availWidth;
 const videoHeight = screen.availHeight;
 
+// debug
+// console.log(videoWidth);
+// console.log(videoHeight);
+// let videoWidth;
+// let videoHeight;
+
+// if (isMobile()) {
+//     videoWidth = screen.availWidth * 2;
+//     videoHeight = screen.availHeight * 2;
+// } else {
+//     videoWidth = screen.availWidth;
+//     videoHeight = screen.availHeight;
+// }
+
 const color = 'white';
 
 var usrAlert = {};
@@ -94,8 +108,10 @@ async function setupCamera() {
     video.srcObject = stream;
 
     // debug
-    alert("html: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);
-    alert("posenet: " + videoWidth + ', ' + videoHeight);
+    // console.log(stream);
+    alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);        // iphone test 375, 812
+    alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);     // iphone test 300, 150
+    alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
 
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
@@ -189,17 +205,21 @@ function postDataToPhp(room, data) {
 
 function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('output');
-    const ctx = canvas.getContext('2d');
     const flipPoseHorizontal = true;
 
     canvas.width = videoWidth;
     canvas.height = videoHeight;
+
+    const ctx = canvas.getContext('2d');
 
     let hazardAlert;
     let hazardDetection = true;
 
     var room = getParameterByName('room');
     
+    // debug
+    alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
+
     async function poseDetectionFrame() {
         let poses = [];
         let minPoseConfidence;
@@ -263,6 +283,9 @@ function detectPoseInRealTime(video, net) {
 async function bindPage() {
     toggleLoadingUI(true);
 
+    // debug
+    alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
+    
     const net = await posenet.load({
         architecture: guiState.input.architecture,
         outputStride: guiState.input.outputStride,
@@ -284,6 +307,9 @@ async function bindPage() {
 
         throw e;
     }
+
+    // debug
+    console.log(video);
 
     setupGui([], net);
     detectPoseInRealTime(video, net);

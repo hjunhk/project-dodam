@@ -48,6 +48,7 @@ socket.on('full', room => {
 socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
+    isStarted = false;
     isChannelReady = true;
 
     setStream();
