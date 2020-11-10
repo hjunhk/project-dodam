@@ -12346,8 +12346,8 @@ var videoHeight = window.innerHeight; // debug
 // let videoHeight;
 
 if (isMobile()) {
-  videoWidth = window.innerWidth * 3;
-  videoHeight = window.innerHeight * 3;
+  videoWidth = window.innerWidth / 2;
+  videoHeight = window.innerHeight / 2;
 } else {
   videoWidth = window.innerWidth;
   videoHeight = window.innerHeight;
