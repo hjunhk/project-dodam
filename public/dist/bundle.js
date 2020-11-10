@@ -12337,21 +12337,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // const videoWidth = screen.availWidth;
-// const videoHeight = screen.availHeight;
-// debug
-// const videoWidth = 375;
-// const videoHeight = 640;
 
 var videoWidth = window.innerWidth;
-var videoHeight = window.innerHeight; // console.log(videoWidth);
+var videoHeight = window.innerHeight; // debug
+// console.log(videoWidth);
 // console.log(videoHeight);
 // let videoWidth;
 // let videoHeight;
 
 if (isMobile()) {
-  videoWidth = window.innerWidth;
-  videoHeight = window.innerHeight;
+  videoWidth = window.innerWidth * 3;
+  videoHeight = window.innerHeight * 3;
 } else {
   videoWidth = window.innerWidth;
   videoHeight = window.innerHeight;
