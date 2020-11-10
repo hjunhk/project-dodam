@@ -48,16 +48,12 @@ socket.on('full', room => {
 socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
-    isStarted = false;
     isChannelReady = true;
-
-    setStream();
 });
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
-
-    setStream();
+    isChannelReady = true;
 });
 
 socket.on('log', array => {
@@ -98,32 +94,24 @@ function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'm
     }
 }
 
-function setStream() {
-    navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: false,
-    }).then(gotStream).catch((error) => console.error(error));
+navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: false,
+}).then(gotStream).catch((error) => console.error(error));
+
+function gotStream(stream) {
+    console.log("Adding local stream");
+
+    if (mode === 0) {
+        localStream = document.getElementById('video').srcObject;
+    } else {
+        localStream = stream;
+    }
     
-    function gotStream(stream) {
-        console.log("Adding local stream");
-    
-        if (mode === 0) {
-            localStream = document.getElementById('video').srcObject;
-        } else {
-            localStream = stream;
-        }
-        
-        sendMessage("got user media");
-    
-        if (mode === 1) {
-            isInitiator = true;
-            isChannelReady = true;
-            isStarted = false;
-        }
-    
-        if (isInitiator) {
-            maybeStart();
-        }
+    sendMessage("got user media");
+
+    if (isInitiator) {
+        maybeStart();
     }
 }
 
