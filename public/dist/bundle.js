@@ -12337,10 +12337,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // const videoWidth = screen.availWidth;
+// const videoHeight = screen.availHeight;
+// debug
 
-var videoWidth = screen.availWidth;
-var videoHeight = screen.availHeight; // debug
-// console.log(videoWidth);
+var videoWidth = 375;
+var videoHeight = 640; // console.log(videoWidth);
 // console.log(videoHeight);
 // let videoWidth;
 // let videoHeight;

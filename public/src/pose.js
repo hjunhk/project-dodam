@@ -1,10 +1,12 @@
 import * as posenet from '@tensorflow-models/posenet';
 import swal from 'sweetalert';
 
-const videoWidth = screen.availWidth;
-const videoHeight = screen.availHeight;
+// const videoWidth = screen.availWidth;
+// const videoHeight = screen.availHeight;
 
 // debug
+const videoWidth = 375;
+const videoHeight = 640;
 // console.log(videoWidth);
 // console.log(videoHeight);
 // let videoWidth;
