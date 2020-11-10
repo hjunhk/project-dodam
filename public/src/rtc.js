@@ -5,8 +5,8 @@ let isInitiator = false;
 let isStarted = false;
 let isChannelReady = false;
 
-const videoWidth = screen.availWidth;
-const videoHeight = screen.availHeight;
+const videoWidth = window.innerWidth;
+const videoHeight = window.innerHeight;
 
 let socket = io.connect();
 
