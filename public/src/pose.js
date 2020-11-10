@@ -110,9 +110,9 @@ async function setupCamera() {
 
     // debug
     // console.log(stream);
-    alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);        // iphone test 375, 812
-    alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);     // iphone test 300, 150
-    alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
+    // alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);        // iphone test 375, 812
+    // alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);     // iphone test 300, 150
+    // alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
 
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
@@ -219,7 +219,7 @@ function detectPoseInRealTime(video, net) {
     var room = getParameterByName('room');
     
     // debug
-    alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
+    // alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
 
     async function poseDetectionFrame() {
         let poses = [];
@@ -261,13 +261,13 @@ function detectPoseInRealTime(video, net) {
                 (keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence)) {
                 if (hazardDetection) {
                     // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);                // 딜레이는 시연 단계 이후 조정 할 것
-                    // hazardAlert = setInterval(usrAlert.alert, 3000);                        // test
+                    hazardAlert = setInterval(usrAlert.alert, 3000);                        // test
 
                     hazardDetection = false;
                 }
             } else {
                 if (!hazardDetection) {
-                    // clearInterval(hazardAlert);
+                    clearInterval(hazardAlert);
                     // postDataToPhp(room, 0);
 
                     hazardDetection = true;
@@ -285,7 +285,7 @@ async function bindPage() {
     toggleLoadingUI(true);
 
     // debug
-    alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
+    // alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
     
     const net = await posenet.load({
         architecture: guiState.input.architecture,
@@ -308,9 +308,6 @@ async function bindPage() {
 
         throw e;
     }
-
-    // debug
-    console.log(video);
 
     setupGui([], net);
     detectPoseInRealTime(video, net);

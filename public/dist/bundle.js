@@ -12464,19 +12464,17 @@ function _setupCamera() {
             stream = _context2.sent;
             video.srcObject = stream; // debug
             // console.log(stream);
+            // alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height);        // iphone test 375, 812
+            // alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);     // iphone test 300, 150
+            // alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
 
-            alert("html video: " + document.getElementById('video').width + ', ' + document.getElementById('video').height); // iphone test 375, 812
-
-            alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height); // iphone test 300, 150
-
-            alert("videoWidth, videoHeight: " + videoWidth + ', ' + videoHeight);
             return _context2.abrupt("return", new Promise(function (resolve) {
               video.onloadedmetadata = function () {
                 resolve(video);
               };
             }));
 
-          case 13:
+          case 10:
           case "end":
             return _context2.stop();
         }
@@ -12599,8 +12597,7 @@ function detectPoseInRealTime(video, net) {
   var hazardAlert;
   var hazardDetection = true;
   var room = getParameterByName('room'); // debug
-
-  alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
+  // alert("html canvas: " + document.getElementById('output').width + ', ' + document.getElementById('output').height);
 
   function poseDetectionFrame() {
     return _poseDetectionFrame.apply(this, arguments);
@@ -12652,13 +12649,14 @@ function detectPoseInRealTime(video, net) {
                 if (keypoints[0].score < minPoseConfidence || keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence) {
                   if (hazardDetection) {
                     // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);                // 딜레이는 시연 단계 이후 조정 할 것
-                    // hazardAlert = setInterval(usrAlert.alert, 3000);                        // test
+                    hazardAlert = setInterval(usrAlert.alert, 3000); // test
+
                     hazardDetection = false;
                   }
                 } else {
                   if (!hazardDetection) {
-                    // clearInterval(hazardAlert);
-                    // postDataToPhp(room, 0);
+                    clearInterval(hazardAlert); // postDataToPhp(room, 0);
+
                     hazardDetection = true;
                   }
                 }
@@ -12690,9 +12688,9 @@ function _bindPage() {
         switch (_context4.prev = _context4.next) {
           case 0:
             toggleLoadingUI(true); // debug
+            // alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
 
-            alert("bindPage inputResolution: " + guiState.input.inputResolution.width + ', ' + guiState.input.inputResolution.height);
-            _context4.next = 4;
+            _context4.next = 3;
             return _tensorflow_models_posenet__WEBPACK_IMPORTED_MODULE_2__["load"]({
               architecture: guiState.input.architecture,
               outputStride: guiState.input.outputStride,
@@ -12701,38 +12699,36 @@ function _bindPage() {
               quantBytes: guiState.input.quantBytes
             });
 
-          case 4:
+          case 3:
             net = _context4.sent;
             toggleLoadingUI(false);
-            _context4.prev = 6;
-            _context4.next = 9;
+            _context4.prev = 5;
+            _context4.next = 8;
             return loadVideo();
 
-          case 9:
+          case 8:
             video = _context4.sent;
-            _context4.next = 18;
+            _context4.next = 17;
             break;
 
-          case 12:
-            _context4.prev = 12;
-            _context4.t0 = _context4["catch"](6);
+          case 11:
+            _context4.prev = 11;
+            _context4.t0 = _context4["catch"](5);
             info = document.getElementById('info');
             info.textContent = '해당 브라우저가 비디오 캡처를 지원하지 않거나, ' + '장치에 카메라가 없습니다.';
             info.style.display = 'block';
             throw _context4.t0;
 
-          case 18:
-            // debug
-            console.log(video);
+          case 17:
             setupGui([], net);
             detectPoseInRealTime(video, net);
 
-          case 21:
+          case 19:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[6, 12]]);
+    }, _callee4, null, [[5, 11]]);
   }));
   return _bindPage.apply(this, arguments);
 }
