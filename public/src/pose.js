@@ -7,20 +7,20 @@ import swal from 'sweetalert';
 // debug
 // const videoWidth = 375;
 // const videoHeight = 640;
-const videoWidth = window.innerWidth;
-const videoHeight = window.innerHeight;
+let videoWidth = window.innerWidth;
+let videoHeight = window.innerHeight;
 // console.log(videoWidth);
 // console.log(videoHeight);
 // let videoWidth;
 // let videoHeight;
 
-// if (isMobile()) {
-//     videoWidth = screen.availWidth * 2;
-//     videoHeight = screen.availHeight * 2;
-// } else {
-//     videoWidth = screen.availWidth;
-//     videoHeight = screen.availHeight;
-// }
+if (isMobile()) {
+    videoWidth = window.innerWidth * 1.5;
+    videoHeight = window.innerHeight * 1.5;
+} else {
+    videoWidth = window.innerWidth;
+    videoHeight = window.innerHeight;
+}
 
 const color = 'white';
 
