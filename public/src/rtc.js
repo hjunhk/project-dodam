@@ -39,6 +39,8 @@ if (room !== '') {
 socket.on('created', (room, id) => {
     console.log('Create room ' + room + ' socket ID: ' + id);
     isInitiator = true;
+
+    setStream();
 });
 
 socket.on('full', room => {
@@ -55,8 +57,7 @@ socket.on('join', room => {
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
-
-    setStream();
+    isStarted = false;
 });
 
 socket.on('log', array => {

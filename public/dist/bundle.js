@@ -12649,14 +12649,13 @@ function detectPoseInRealTime(video, net) {
                 if (keypoints[0].score < minPoseConfidence || keypoints[1].score < minPoseConfidence && keypoints[2].score < minPoseConfidence) {
                   if (hazardDetection) {
                     // hazardAlert = setInterval(postDataToPhp, 3000, room, 1);                // 딜레이는 시연 단계 이후 조정 할 것
-                    hazardAlert = setInterval(usrAlert.alert, 3000); // test
-
+                    // hazardAlert = setInterval(usrAlert.alert, 3000);                        // test
                     hazardDetection = false;
                   }
                 } else {
                   if (!hazardDetection) {
-                    clearInterval(hazardAlert); // postDataToPhp(room, 0);
-
+                    // clearInterval(hazardAlert);
+                    // postDataToPhp(room, 0);
                     hazardDetection = true;
                   }
                 }
