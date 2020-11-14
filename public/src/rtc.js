@@ -39,8 +39,6 @@ if (room !== '') {
 socket.on('created', (room, id) => {
     console.log('Create room ' + room + ' socket ID: ' + id);
     isInitiator = true;
-
-    setStream();
 });
 
 socket.on('full', room => {
@@ -51,13 +49,14 @@ socket.on('join', room => {
     console.log('Another peer made a request to join room ' + room);
     console.log('This peer is the initiator of room ' + room + '!');
     isChannelReady = true;
+    isStarted = false;
 
     setStream();
 });
 
 socket.on('joined', room => {
     console.log('joined: ' + room);
-    isStarted = false;
+    isChannelReady = true;
 });
 
 socket.on('log', array => {
@@ -68,14 +67,16 @@ socket.on('message', (message) => {
     console.log('Client received message:', message);
 
     if (message === 'got user media') {
-        maybeStart();
+        
     } else if (message.type === 'offer') {
         if (!isInitiator && !isStarted) {
-            maybeStart();
+            setTimeout(setStream, 1000);
         }
 
-        pc.setRemoteDescription(new RTCSessionDescription(message));
-        doAnswer();
+        setTimeout(function() {
+            pc.setRemoteDescription(new RTCSessionDescription(message));
+            doAnswer();
+        }, 3000);
     } else if (message.type === 'answer' && isStarted) {
         pc.setRemoteDescription(new RTCSessionDescription(message));
     } else if (message.type === 'candidate' && isStarted) {
@@ -98,13 +99,13 @@ function toggleLoadingUI(showLoadingUI, loadingDivId = 'loading', mainDivId = 'm
     }
 }
 
-function setStream() {
+async function setStream() {
     navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
     }).then(gotStream).catch((error) => console.error(error));
     
-    function gotStream(stream) {
+    async function gotStream(stream) {
         console.log("Adding local stream");
     
         if (mode === 0) {
