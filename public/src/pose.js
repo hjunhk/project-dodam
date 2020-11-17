@@ -1,8 +1,8 @@
 import * as posenet from '@tensorflow-models/posenet';
 import swal from 'sweetalert';
 
-let videoWidth = window.innerWidth;
-let videoHeight = window.innerHeight;
+let videoWidth;
+let videoHeight;
 
 // debug
 // console.log(videoWidth);
@@ -10,13 +10,13 @@ let videoHeight = window.innerHeight;
 // let videoWidth;
 // let videoHeight;
 
-// if (isMobile()) {
-//     videoWidth = window.innerWidth * 0.5;
-//     videoHeight = window.innerHeight * 0.5;
-// } else {
-//     videoWidth = window.innerWidth;
-//     videoHeight = window.innerHeight;
-// }
+if (isMobile()) {
+    videoWidth = window.innerHeight;
+    videoHeight = window.innerWidth;
+} else {
+    videoWidth = window.innerWidth;
+    videoHeight = window.innerHeight;
+}
 
 const color = 'white';
 

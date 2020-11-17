@@ -12338,19 +12338,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var videoWidth = window.innerWidth;
-var videoHeight = window.innerHeight; // debug
+var videoWidth;
+var videoHeight; // debug
 // console.log(videoWidth);
 // console.log(videoHeight);
 // let videoWidth;
 // let videoHeight;
-// if (isMobile()) {
-//     videoWidth = window.innerWidth * 0.5;
-//     videoHeight = window.innerHeight * 0.5;
-// } else {
-//     videoWidth = window.innerWidth;
-//     videoHeight = window.innerHeight;
-// }
+
+if (isMobile()) {
+  videoWidth = window.innerHeight;
+  videoHeight = window.innerWidth;
+} else {
+  videoWidth = window.innerWidth;
+  videoHeight = window.innerHeight;
+}
 
 var color = 'white';
 var usrAlert = {};
