@@ -12338,21 +12338,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var videoWidth;
-var videoHeight; // debug
-// console.log(videoWidth);
-// console.log(videoHeight);
-// let videoWidth;
-// let videoHeight;
-
-if (isMobile()) {
-  videoWidth = window.innerHeight;
-  videoHeight = window.innerWidth;
-} else {
-  videoWidth = window.innerWidth;
-  videoHeight = window.innerHeight;
-}
-
+var videoWidth = window.innerWidth;
+var videoHeight = window.innerHeight;
 var color = 'white';
 var usrAlert = {};
 
@@ -12516,7 +12503,10 @@ function _loadVideo() {
 var defaultQuantBytes = 2;
 var defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 var defaultMobileNetStride = 16;
-var defaultMobileNetInputResolution = {
+var defaultMobileNetInputResolution = isMobile() ? {
+  width: videoHeight,
+  height: videoWidth
+} : {
   width: videoWidth,
   height: videoHeight
 };

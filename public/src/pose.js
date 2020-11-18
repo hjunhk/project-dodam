@@ -1,22 +1,8 @@
 import * as posenet from '@tensorflow-models/posenet';
 import swal from 'sweetalert';
 
-let videoWidth;
-let videoHeight;
-
-// debug
-// console.log(videoWidth);
-// console.log(videoHeight);
-// let videoWidth;
-// let videoHeight;
-
-if (isMobile()) {
-    videoWidth = window.innerHeight;
-    videoHeight = window.innerWidth;
-} else {
-    videoWidth = window.innerWidth;
-    videoHeight = window.innerHeight;
-}
+let videoWidth = window.innerWidth;
+let videoHeight = window.innerHeight;
 
 const color = 'white';
 
@@ -132,7 +118,7 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = { width: videoWidth, height: videoHeight };
+const defaultMobileNetInputResolution = isMobile() ? { width: videoHeight, height: videoWidth } : { width: videoWidth, height: videoHeight };
 
 const guiState = {
     algorithm: 'single-pose',
